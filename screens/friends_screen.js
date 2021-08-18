@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const HomeScreen = (navigator) => {
+const FriendsScreen = (navigator) => {
   return (
      <View>
-      <Text>Home</Text>
+      <Text>Friends</Text>
      </View>
   
   );
 }
 
-export default HomeScreen;
+export default FriendsScreen;
