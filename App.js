@@ -13,6 +13,7 @@ import store from './redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
 import HomeScreen from './screens/home_screen';
 import LoginScreen from './screens/login_screen';
 import AddQuestionScreen from './screens/addQuestion_screen';
@@ -25,9 +26,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-      
+
        <Tab.Navigator initialRouteName = "Home" >
-        <Tab.Screen name= "Home"  component = {HomeScreen}/>
+        <Tab.Screen name= "Home"  component = {HomeScreen} />
         <Tab.Screen name= "Login"  component = {LoginScreen}/>
         <Tab.Screen name= "Friends"  component = {FriendsScreen}/>
         <Tab.Screen name= "AddQuestion"  component = {AddQuestionScreen}/>
