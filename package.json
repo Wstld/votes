@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^12.7.0",
+    "@react-native-firebase/auth": "^12.7.2",
+    "@react-native-firebase/firestore": "^12.7.2",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@reduxjs/toolkit": "^1.6.1",

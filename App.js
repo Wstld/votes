@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 import NavigationBridge from './components/navigationBridge';
+import { Button } from 'react-native';
+
 
 
 
