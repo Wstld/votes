@@ -1,23 +1,86 @@
-{
-	"title": "title of question",
-	"description": "desc of the question asked",
-	"options": ["1", "2", "3"],
-	"vote": {
-		"result": {
-			"1": 1,
-			"2": 0,
-			"3": 0,
-			"4": 2
-		},
-		"voters": [{
-				"id": "some id",
-				"voted": false
+[
+	{
+		"title": "Wanna do something?",
+		"description": "desc of the question asked",
+		"id": "WWfk2-Wanna_Do_Something",
+		"options": [
+			"1",
+			"2",
+			"3"
+		],
+		"vote": {
+			"result": {
+				"1": 1,
+				"2": 0,
+				"3": 0,
+				"4": 2
 			},
-			{
-				"id": "some other id",
-				"voted": true
-			}
-		]
-
+			"voters": [
+				{
+					"id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
+					"voted": false
+				},
+				{
+					"id": "some id",
+					"voted": true
+				}
+			]
+		}
+	},
+	{
+		"title": "Wanna do this?",
+		"description": "desc of the question asked",
+		"id": "WWfk2-Wanna_Do_This",
+		"options": [
+			"1",
+			"2",
+			"3"
+		],
+		"vote": {
+			"result": {
+				"1": 1,
+				"2": 0,
+				"3": 0,
+				"4": 2
+			},
+			"voters": [
+				{
+					"id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
+					"voted": false
+				},
+				{
+					"id": "some id",
+					"voted": true
+				}
+			]
+		}
+	},
+	{
+		"title": "Wanna do this then?",
+		"description": "desc of the question asked",
+		"id": "WWfk2-Wanna_Do_This",
+		"options": [
+			"1",
+			"2",
+			"3"
+		],
+		"vote": {
+			"result": {
+				"1": 1,
+				"2": 0,
+				"3": 0,
+				"4": 2
+			},
+			"voters": [
+				{
+					"id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
+					"voted": false
+				},
+				{
+					"id": "some id",
+					"voted": true
+				}
+			]
+		}
 	}
-}
+]

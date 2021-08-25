@@ -108,7 +108,7 @@ export const VoteHolder = (props) => {
     
     const VoteCard = ({ item }) => {
         return (
-            <Pressable onPress={() => navigation.navigate('Home', { screen: 'Details' })} style={styles.voteCardCont}>
+            <Pressable onPress={() => navigation.navigate('Home', { screen: 'Details', params:{voteId:item.id}})} style={styles.voteCardCont}>
                 <View>
                     <Text style={styles.voteCardText}>{item.title}</Text>
                 </View>

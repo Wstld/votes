@@ -41,13 +41,100 @@ const HomeScreen = (navigator) => {
         .get()
         .then(doc => {
           if (doc.exists) {
-           return;
+            return;
           }
           else {
             firestore()
               .collection('users')
               .doc(user.uid)
-              .set({ name: user.email });
+              .set({
+                name: user.email, votes: [
+                  {
+                    "title": "Wanna do something?",
+                    "description": "desc of the question asked",
+                    "id": "WWfk2-Wanna_Do_Something",
+                    "options": [
+                      "1",
+                      "2",
+                      "3"
+                    ],
+                    "vote": {
+                      "result": {
+                        "1": 1,
+                        "2": 0,
+                        "3": 0,
+                        "4": 2
+                      },
+                      "voters": [
+                        {
+                          "id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
+                          "voted": false
+                        },
+                        {
+                          "id": "some id",
+                          "voted": true
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "title": "Wanna do this?",
+                    "description": "desc of the question asked",
+                    "id": "WWfk2-Wanna_Do_This",
+                    "options": [
+                      "1",
+                      "2",
+                      "3"
+                    ],
+                    "vote": {
+                      "result": {
+                        "1": 1,
+                        "2": 0,
+                        "3": 0,
+                        "4": 2
+                      },
+                      "voters": [
+                        {
+                          "id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
+                          "voted": false
+                        },
+                        {
+                          "id": "some id",
+                          "voted": true
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "title": "Wanna do this then?",
+                    "description": "desc of the question asked",
+                    "id": "WWfk2-Wanna_Do_This",
+                    "options": [
+                      "1",
+                      "2",
+                      "3"
+                    ],
+                    "vote": {
+                      "result": {
+                        "1": 1,
+                        "2": 0,
+                        "3": 0,
+                        "4": 2
+                      },
+                      "voters": [
+                        {
+                          "id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
+                          "voted": false
+                        },
+                        {
+                          "id": "some id",
+                          "voted": true
+                        }
+                      ]
+                    }
+                  }
+                ],
+              });
           }
         });
 
@@ -55,7 +142,7 @@ const HomeScreen = (navigator) => {
         .collection('users')
         .doc(user.uid)
         .onSnapshot(onResult, onErr);
-        console.log("USER2")
+      console.log("USER2")
       return subscribe;
 
     } else {
@@ -65,22 +152,22 @@ const HomeScreen = (navigator) => {
   }, [user]);
 
   const styles = StyleSheet.create({
-    mainContainer:{
-      justifyContent:'center',
-      alignItems:'center',
-      alignContent:'center',
-      marginTop:40,
+    mainContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center',
+      marginTop: 40,
     }
   })
   return (
-    <View style = {styles.mainContainer}>
+    <View style={styles.mainContainer}>
       {
         status === STATUS.loading ?
           <Text>Loading</Text>
           : data != null ?
-          <VoteHolder votes = {data.votes}/>
-          :
-          <Text>Some thing went wrong</Text>
+            <VoteHolder votes={data.votes} />
+            :
+            <Text>Some thing went wrong</Text>
       }
 
     </View>
