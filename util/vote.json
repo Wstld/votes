@@ -1,0 +1,23 @@
+{
+	"title": "title of question",
+	"description": "desc of the question asked",
+	"options": ["1", "2", "3"],
+	"vote": {
+		"result": {
+			"1": 1,
+			"2": 0,
+			"3": 0,
+			"4": 2
+		},
+		"voters": [{
+				"id": "some id",
+				"voted": false
+			},
+			{
+				"id": "some other id",
+				"voted": true
+			}
+		]
+
+	}
+}

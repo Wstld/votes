@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { loginSlice,fbSignOut } from '../redux/features/loginSlice';
 
@@ -14,16 +15,22 @@ import LoginScreen from '../screens/login_screen';
 
 import auth from '@react-native-firebase/auth'
 import store from '../redux/store';
+import VoteDetails from '../screens/voteDetails_screen';
 
 const NavigationBridge = () => {
     //navigation bridge to get access to global states.
 
     //handel auth change event.
     function authChange(user){
+        
         if(!user || user === undefined){
             dispatch(loginSlice.actions.reSetUser());
             dispatch(loginSlice.actions.setActiveUser(false));
         }else{
+            if(user != store.getState().login.user){
+                dispatch(loginSlice.actions.setUser(user));
+            } 
+            
             dispatch(loginSlice.actions.setActiveUser(true));
         }
     }
@@ -41,6 +48,8 @@ const NavigationBridge = () => {
     let activeUser = useSelector(state => state.login.activeUser);
 
     const Tab = createBottomTabNavigator();
+    const Stack = createNativeStackNavigator()
+
     let dispatch = useDispatch();
 
     return (
@@ -63,11 +72,11 @@ const NavigationBridge = () => {
                 ),
             }}>
                 {activeUser ? (
-                <>
-                <Tab.Screen name="Home" component={HomeScreen} />
+                <Tab.Group>
+                <Tab.Screen name="Home" component={Home} />
                 <Tab.Screen name="Friends" component={FriendsScreen} />
                 <Tab.Screen name="AddQuestion" component={AddQuestionScreen} />
-                </>
+                </Tab.Group>
                 ) :
                 (
                     <>
@@ -75,13 +84,20 @@ const NavigationBridge = () => {
                     </>
                 )
                 }
-
             </Tab.Navigator>
-
-
         </NavigationContainer>
 
     );
 };
+
+const Home = () => {
+    const Stack = createNativeStackNavigator();
+    return (
+    <Stack.Navigator initialRouteName="Landing">
+        <Stack.Screen name = "Landing" component = { HomeScreen }/>
+        <Stack.Screen name = "Details" component = { VoteDetails } />
+    </Stack.Navigator>
+    );
+}
 
 export default NavigationBridge;

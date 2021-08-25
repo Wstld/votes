@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Text, View, TextInput, Button, Modal, StyleSheet, useWindowDimensions, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
+import React from 'react';
+import { Text, View, TextInput, Button, Modal, StyleSheet, useWindowDimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginSlice, loginWithEmail, createUserWithEmail} from '../redux/features/loginSlice';
 import store from '../redux/store';
-import auth from '@react-native-firebase/auth';
+import { Sepparator } from '../components/sepparator';
+
 import { STATUS } from '../util/constants'
 
 
@@ -26,10 +27,6 @@ const LoginScreen = (navigator) => {
 
 
   const styles = StyleSheet.create({
-    sepparator:{
-      marginVertical: 6,
-      borderBottomColor: '#737373',
-    },
     modal: {
       backgroundColor: 'grey',
       width: width - 20,
@@ -79,11 +76,7 @@ const LoginScreen = (navigator) => {
   });
 
   
-  const Sepparator = () => {
-    return (
-      <View style={styles.sepparator} />
-    );
-  };
+  
 
   if (status === STATUS.idle) {
     return (
@@ -108,7 +101,7 @@ const LoginScreen = (navigator) => {
             />
             <View style={styles.btn}>
               <Button title="create" onPress={() => createUser()} />
-              <Sepparator />
+              <Sepparator height = {6}/>
               <Button
                 title="close"
                 onPress={() => dispatch(loginSlice.actions.toggelModal())}

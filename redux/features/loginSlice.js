@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import auth from '@react-native-firebase/auth'
 import {STATUS} from '../../util/constants'
-import { ActionSheetIOS } from "react-native";
-import firestore from '@react-native-firebase/firestore'
+
 
 export const loginWithEmail = createAsyncThunk(
     'loginWithEmail',
@@ -35,6 +34,7 @@ export const loginSlice = createSlice({
         modalOpen: false,
         activeUser: false,
         user:null,
+        userData:null,
         username:'',
         password:'',
         status:STATUS.idle,
@@ -55,6 +55,12 @@ export const loginSlice = createSlice({
         },
         setUsername: (state,action) => {
             state.username = action.payload;
+        },
+        setUserData: (state,action) => {
+            state.userData = action.payload;
+        },
+        setUser: (state,action) => {
+            state.user = action.payload;
         },
     },
     extraReducers: builder => {
@@ -83,6 +89,7 @@ export const loginSlice = createSlice({
             state.status = STATUS.idle;
             state.user = null;
             state.activeUser = false;
+            state.userData = null;
             console.log("user logged out")
         })
         .addCase(createUserWithEmail.pending, (state) => {
@@ -102,7 +109,7 @@ export const loginSlice = createSlice({
     },
 });
 
-export const { toggelModal, setActiveUser, setUserId, reSetUserId,setPassword,setUsername } = loginSlice.actions;
+export const { toggelModal, setActiveUser, setUserId, reSetUserId,setPassword,setUsername,setUserData,setUser } = loginSlice.actions;
 
 export default loginSlice.reducer;
 
