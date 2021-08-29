@@ -23,7 +23,6 @@ const HomeScreen = (navigator) => {
 
   function onResult(Snap) {
     let addedData = Snap.data();
-    console.log('data:', addedData);
     dispatch(loginSlice.actions.setUserData(addedData));
     setStatus(STATUS.idle);
   }
@@ -34,7 +33,6 @@ const HomeScreen = (navigator) => {
 
   useEffect(() => {
     if (user) {
-      console.log(user.uid)
       firestore()
         .collection('users')
         .doc(user.uid)
@@ -48,92 +46,8 @@ const HomeScreen = (navigator) => {
               .collection('users')
               .doc(user.uid)
               .set({
-                name: user.email, votes: [
-                  {
-                    "title": "Wanna do something?",
-                    "description": "desc of the question asked",
-                    "id": "WWfk2-Wanna_Do_Something",
-                    "options": [
-                      "1",
-                      "2",
-                      "3"
-                    ],
-                    "vote": {
-                      "result": {
-                        "1": 1,
-                        "2": 0,
-                        "3": 0,
-                        "4": 2
-                      },
-                      "voters": [
-                        {
-                          "id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
-                          "voted": false
-                        },
-                        {
-                          "id": "some id",
-                          "voted": true
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "title": "Wanna do this?",
-                    "description": "desc of the question asked",
-                    "id": "WWfk2-Wanna_Do_This",
-                    "options": [
-                      "1",
-                      "2",
-                      "3"
-                    ],
-                    "vote": {
-                      "result": {
-                        "1": 1,
-                        "2": 0,
-                        "3": 0,
-                        "4": 2
-                      },
-                      "voters": [
-                        {
-                          "id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
-                          "voted": false
-                        },
-                        {
-                          "id": "some id",
-                          "voted": true
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "title": "Wanna do this then?",
-                    "description": "desc of the question asked",
-                    "id": "WWfk2-Wanna_Do_This",
-                    "options": [
-                      "1",
-                      "2",
-                      "3"
-                    ],
-                    "vote": {
-                      "result": {
-                        "1": 1,
-                        "2": 0,
-                        "3": 0,
-                        "4": 2
-                      },
-                      "voters": [
-                        {
-                          "id": "trSVTiVbbAe34hS8WmcbV3EWWfk2",
-                          "voted": false
-                        },
-                        {
-                          "id": "some id",
-                          "voted": true
-                        }
-                      ]
-                    }
-                  }
-                ],
+                name: user.email, 
+                voteFlags: [],
               });
           }
         });
@@ -142,7 +56,6 @@ const HomeScreen = (navigator) => {
         .collection('users')
         .doc(user.uid)
         .onSnapshot(onResult, onErr);
-      console.log("USER2")
       return subscribe;
 
     } else {
@@ -159,13 +72,15 @@ const HomeScreen = (navigator) => {
       marginTop: 40,
     }
   })
+
+
   return (
     <View style={styles.mainContainer}>
       {
         status === STATUS.loading ?
           <Text>Loading</Text>
           : data != null ?
-            <VoteHolder votes={data.votes} />
+            <VoteHolder voteFlags={data.voteFlags} />
             :
             <Text>Some thing went wrong</Text>
       }

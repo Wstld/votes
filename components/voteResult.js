@@ -8,7 +8,7 @@ const VoteResult = ({total,options,results})  => {
    const {width,height} = useWindowDimensions(); 
 
     const ResultStaple = ({percent,votes}) => {
-        
+        console.log("per",percent)
         const stapleStyle = StyleSheet.create({
             staple:{
                 height:30,
@@ -75,7 +75,7 @@ const VoteResult = ({total,options,results})  => {
         {options.map( opt => (<Text style={styles.optText} numberOfLines = {1} ellipsizeMode="tail" adjustsFontSizeToFit={true} minimumFontScale={0.7}>{opt}</Text>))}
       </View>
       <View style={styles.resultCont}>
-        {Object.entries(results).map( ([key,value]) => <ResultStaple percent ={(value / total * 100).toFixed(0)} votes={value}/> ) }
+        { Object.entries(results).map(([key,value]) => (<ResultStaple votes={value} percent={ (value / total * 100).toFixed(1) } />)) }
       </View>
      </View>
   

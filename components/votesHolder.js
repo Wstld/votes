@@ -4,16 +4,20 @@ import { Text, View, TextInput, Button, Modal, StyleSheet, useWindowDimensions, 
 import { useNavigation } from '@react-navigation/native';
 import { Sepparator } from './sepparator';
 import store from '../redux/store'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getVoteData } from '../redux/features/detailsSlice';
 
 
-export const VoteHolder = (props) => {
-    let votes = !props.votes.length ? [] : props.votes;
+export const VoteHolder = ({voteFlags}) => {
+    let dispatch = useDispatch()
     const navigation = useNavigation();
-    //use filter only my votes.
-    /*if(votes != null){
-        console.log(   "test",votes.filter( v => v.title.includes("How")) );
-    }*/
-    
+    let voteData = useSelector(state => state.details.voteData);
+// should set a listner to this data.
+    useEffect(()=> {
+        dispatch(getVoteData(voteFlags));
+    },[]);
+    console.log("voteHold",voteData)
 
     const { height, width } = useWindowDimensions();
 
@@ -106,7 +110,7 @@ export const VoteHolder = (props) => {
         }
     })
     
-    const VoteCard = ({ item }) => {
+    const VoteCard = ({ item,index }) => {
         return (
             <Pressable onPress={() => navigation.navigate('Home', { screen: 'Details', params:{voteId:item.id}})} style={styles.voteCardCont}>
                 <View>
@@ -122,13 +126,13 @@ export const VoteHolder = (props) => {
             <View style={styles.container}>
             <Text style={styles.header}>Votes</Text>
             
-            {!votes.length ?
+            {!voteData.length ?
                 <Text style={styles.noVotesText}>No Votes</Text>
                 :
                 <FlatList
-                    data={votes}
+                    data={voteData}
                     renderItem={VoteCard}
-                    keyExtractor={item => item.title}
+                    keyExtractor={item => item.id}
                     ItemSeparatorComponent={(() => (<Sepparator height = {8}/>))}
                     contentContainerStyle={styles.contentCotainerStyle}
                     style={styles.listCont}

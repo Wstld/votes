@@ -1,16 +1,24 @@
-import React from 'react';
-import { Text, View, StyleSheet, useWindowDimensions, Button } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, {useState} from 'react';
+import { Text, View, StyleSheet, useWindowDimensions, Button, Modal, CheckBox, Pressable,FlatList} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import VoteResult from '../components/voteResult'
 import store from '../redux/store';
+import { Sepparator } from '../components/sepparator';
+import { detailsSlice,userChoice } from '../redux/features/detailsSlice';
+import { loginSlice } from '../redux/features/loginSlice';
 
 const VoteDetails = ({ navigaton, route }) => {
-  const { innerHeight, width } = useWindowDimensions();
+  let dispatch = useDispatch()
+  const { height, width } = useWindowDimensions();
   const id = route.params.voteId;
-  
+  let userId = store.getState().login.user.uid;
+
   //array with vote with matching id.
-  let data = useSelector(state => state.login.userData.votes.filter(e => e.id === id));
-  let hasUserVoted = data[0].vote.voters.filter(e => e.id === store.getState().login.user.uid)[0].voted; 
+  let data = store.getState().details.voteData.filter(e => e.id === id )[0];
+
+  let hasUserVoted = data.voters[userId] ? data.voters[userId].voted : false;
+
+  const modalOpen = useSelector(state => state.details.modalOpen);
 
   const styles = StyleSheet.create({
     mainCont: {
@@ -57,22 +65,102 @@ const VoteDetails = ({ navigaton, route }) => {
       textAlignVertical:'center',
       fontSize:15,
 
+    },
+    modal:{
+     
+
+    },
+    modalCont:{
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      backgroundColor:'white',
+      width:width,
+      height:height - 100,
+      borderBottomLeftRadius:20,
+      borderBottomRightRadius:20,
+    },
+    modalHeader:{
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      height:70,
+      backgroundColor:'rgba(243, 242, 209, 1)',
+      textAlign:'center',
+      textAlignVertical:'center',
+      fontSize:20,
+    },
+    modalBtn:{
+      height:30,
+      backgroundColor:'orange',
+      alignItems:'center',
+      width:100,
+    },
+    listCont:{
+      alignSelf:'center',
+      marginTop:20,
     }
   })
   
-  console.log(data[0].vote.voters.filter(e => e.id === store.getState().login.user.uid)[0].voted)
 
+  function makeChoice(pick){
+    dispatch(userChoice( {choice:pick,voteId:id, uid:userId}));
+    dispatch(detailsSlice.actions.toggelModal());
+  }
+
+
+  const OptBtn = ({item,index}) => {
+    console.log("item",item)
+    return(
+      <Pressable style={styles.modalBtn} onPress={() => {makeChoice(item)}}>
+        <Text>{item}</Text>
+      </Pressable>
+    )
+  }
+  
   //should have error handling for id/Db missmatch. 
   //create modal on vote tap.
+  console.log("voted", Object.values(data.voters).filter( e => e.voted).length      )
   return (
     <View style={styles.mainCont}>
-      <Text style={styles.title}>{data[0].title}</Text>
+       <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalOpen}
+          style={styles.modal}
+        >
+        <View  style={styles.modalCont}>
+        <Text style={styles.modalHeader}>{data.title}</Text>
+        <FlatList
+                    data={data.options}
+                    renderItem={OptBtn}
+                    ItemSeparatorComponent={(() => (<Sepparator height = {8}/>))}
+                    contentContainerStyle={styles.contentCotainerStyle}
+                    style={styles.listCont}
+                />
+        <Pressable style={styles.modalBtn} onPress={() => {dispatch(detailsSlice.actions.toggelModal())}}>
+         <Text>Close</Text>
+        </Pressable>
+        </View>
+        
+        </Modal>
+
+
+      <Text style={styles.title}>{data.title}</Text>
       <View style={styles.descpCont}>
-        <Text>{data[0].description}</Text>
+        <Text>{data.description}</Text>
       </View>
-      <VoteResult total={data[0].vote.voters.length} options={data[0].options} results={data[0].vote.result} />
-      <Text style={styles.sumTxt}>{`${data[0].vote.voters.map(e => e.voted === true).length}/${data[0].vote.voters.length}`}</Text>
-      <Button title="Vote" disabled={hasUserVoted}/>
+      <VoteResult options= {data.options} results = {data.result} total = {Object.keys(data.voters).length} />
+      <Text style={styles.sumTxt}>{`${Object.values(data.voters).filter( e => e.voted).length}/${Object.keys(data.voters).length}`}</Text>
+      <Button title="Vote" disabled={hasUserVoted} onPress={() => {dispatch(detailsSlice.actions.toggelModal())}}/>
     </View>
 
   );

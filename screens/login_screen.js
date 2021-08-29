@@ -19,7 +19,7 @@ const LoginScreen = (navigator) => {
   const createUser = () => {
     let password = store.getState().login.password;
     let username = store.getState().login.username;
-    console.log(username, password);
+   
     //Check username and password => firebase auth create user.
     //auth().createUserWithEmailAndPassword(username,password).then(() => { //sign in }).catch(error => { if .... })
     dispatch(createUserWithEmail({username:store.getState().login.username,password:store.getState().login.password}));
