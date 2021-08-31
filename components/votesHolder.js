@@ -142,6 +142,7 @@ export const VoteHolder = ({voteFlags}) => {
             <Button
                 title="Ask for Vote"
                 color="rgb(149, 166, 103)"
+                onPress={() => { navigation.navigate('AddQuestion')}}
             />
 
         </SafeAreaView>

@@ -83,7 +83,7 @@ const HomeScreen = (navigator) => {
             data != null ?
             <VoteHolder voteFlags={data.voteFlags} />
             :
-            <Text>Some thing went wrong</Text>
+            <Text>loading</Text>
       }
 
     </View>

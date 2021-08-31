@@ -9,15 +9,16 @@ import { useEffect } from 'react';
 
 const AddQuestionScreen = (navigator) => {
   const dispatch = useDispatch();
-  const friendsForState = Object.entries(store.getState().login.userData.friends).map(([key, value]) => ({ clicked: false, ...value }));
+  let friendsFromDB = useSelector(state => state.login.userData.friends)
+  const friendsForState = Object.entries(friendsFromDB).map(([key, value]) => ({ clicked: false, ...value }));
 
   useEffect(() => {
     dispatch(addQuestionSlice.actions.setUserFriends(friendsForState));
-  }, []);
+  },[friendsFromDB]);
 
   const friends = useSelector(state => state.addQuestion.userFriends);
 
-
+  
   let optModalOpen = useSelector(state => state.addQuestion.optionsModalOpen);
   let friendsModalOpen = useSelector(state => state.addQuestion.friendsModalOpen);
   let addedFriends = useSelector(state => state.addQuestion.addedFriends);
@@ -256,10 +257,6 @@ const AddQuestionScreen = (navigator) => {
                     contentContainerStyle={styles.contentContainerStyle}
                   />}
             </View>
-            <View style={styles.searchBarCont}>
-              <TextInput placeholder="Search" style={styles.textInput_small} /><Text>IMG</Text>
-            </View>
-            {/*map search result*/}
             <Pressable style={styles.addBtn} onPress={() => { dispatch(addQuestionSlice.actions.toggelFriendsModal()) }}><Text>Close</Text></Pressable>
           </View>
         </Modal>
