@@ -16,8 +16,8 @@ export const VoteHolder = ({voteFlags}) => {
 // should set a listner to this data.
     useEffect(()=> {
         dispatch(getVoteData(voteFlags));
-    },[]);
-    console.log("voteHold",voteData)
+    });
+   
 
     const { height, width } = useWindowDimensions();
 

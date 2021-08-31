@@ -5,8 +5,6 @@ export default configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredPaths: ['firebase', 'firestore'],
-      },
+      serializableCheck: false,
     }),
 });

@@ -14,17 +14,14 @@ import { VoteHolder } from '../components/votesHolder';
 
 
 const HomeScreen = (navigator) => {
-  let user = useSelector(state => state.login.user);
-  let data = useSelector(state => state.login.userData);
-
-  const [status, setStatus] = useState(STATUS.loading);
+ 
   let dispatch = useDispatch();
 
 
   function onResult(Snap) {
+    console.log("update")
     let addedData = Snap.data();
     dispatch(loginSlice.actions.setUserData(addedData));
-    setStatus(STATUS.idle);
   }
 
   function onErr(err) {
@@ -39,15 +36,18 @@ const HomeScreen = (navigator) => {
         .get()
         .then(doc => {
           if (doc.exists) {
-            return;
+            
           }
           else {
             firestore()
               .collection('users')
               .doc(user.uid)
               .set({
-                name: user.email, 
+                name: user.email,
+                id:user.uid,
+                friends:[],
                 voteFlags: [],
+                email: user.email,
               });
           }
         });
@@ -62,7 +62,10 @@ const HomeScreen = (navigator) => {
       dispatch(loginSlice.actions.reSetUser());
     }
 
-  }, [user]);
+  }, []);
+
+  let user = useSelector(state => state.login.user);
+  let data = useSelector(state => state.login.userData);
 
   const styles = StyleSheet.create({
     mainContainer: {
@@ -77,9 +80,7 @@ const HomeScreen = (navigator) => {
   return (
     <View style={styles.mainContainer}>
       {
-        status === STATUS.loading ?
-          <Text>Loading</Text>
-          : data != null ?
+            data != null ?
             <VoteHolder voteFlags={data.voteFlags} />
             :
             <Text>Some thing went wrong</Text>

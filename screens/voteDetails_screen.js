@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import { Text, View, StyleSheet, useWindowDimensions, Button, Modal, CheckBox, Pressable,FlatList} from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import VoteResult from '../components/voteResult'
 import store from '../redux/store';
 import { Sepparator } from '../components/sepparator';
 import { detailsSlice,userChoice } from '../redux/features/detailsSlice';
 import { loginSlice } from '../redux/features/loginSlice';
+import { useEffect } from 'react';
 
 const VoteDetails = ({ navigaton, route }) => {
   let dispatch = useDispatch()
@@ -13,9 +14,8 @@ const VoteDetails = ({ navigaton, route }) => {
   const id = route.params.voteId;
   let userId = store.getState().login.user.uid;
 
-  //array with vote with matching id.
-  let data = store.getState().details.voteData.filter(e => e.id === id )[0];
 
+  let data = useSelector(state => state.details.voteData.filter(e=> e.id === id)[0]);
   let hasUserVoted = data.voters[userId] ? data.voters[userId].voted : false;
 
   const modalOpen = useSelector(state => state.details.modalOpen);
@@ -112,8 +112,11 @@ const VoteDetails = ({ navigaton, route }) => {
   
 
   function makeChoice(pick){
-    dispatch(userChoice( {choice:pick,voteId:id, uid:userId}));
-    dispatch(detailsSlice.actions.toggelModal());
+    batch(() => {
+      dispatch(userChoice( {choice:pick,voteId:id, uid:userId}));
+      dispatch(detailsSlice.actions.toggelModal());
+    })
+    
   }
 
 
