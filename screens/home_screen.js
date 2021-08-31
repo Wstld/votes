@@ -43,7 +43,7 @@ const HomeScreen = (navigator) => {
               .collection('users')
               .doc(user.uid)
               .set({
-                name: user.email,
+                name: store.getState().login.name,
                 id:user.uid,
                 friends:[],
                 voteFlags: [],

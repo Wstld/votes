@@ -15,7 +15,12 @@ export const VoteHolder = ({voteFlags}) => {
     let voteData = useSelector(state => state.details.voteData);
 // should set a listner to this data.
     useEffect(()=> {
-        dispatch(getVoteData(voteFlags));
+        if(!voteFlags.length){
+            return;
+        }else{
+           dispatch(getVoteData(voteFlags));
+        }
+        
     });
    
 

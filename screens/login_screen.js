@@ -89,9 +89,14 @@ const LoginScreen = (navigator) => {
           <View style = {styles.modal}>
             <TextInput
               style={styles.input}
-              placeholder="Username"
+              placeholder="email"
               onChangeText={username => { dispatch(loginSlice.actions.setUsername(username)); }}
               defaultValue={store.getState().login.username}
+            />
+             <TextInput
+              style={styles.input}
+              placeholder="name"
+              onChangeText={text => { dispatch(loginSlice.actions.setName(text)); }}
             />
             <TextInput
               style={styles.input}

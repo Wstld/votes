@@ -38,6 +38,7 @@ export const loginSlice = createSlice({
         username:'',
         password:'',
         status:STATUS.idle,
+        name:""
     },
     reducers: {
         toggelModal: (state) => {
@@ -62,6 +63,9 @@ export const loginSlice = createSlice({
         setUser: (state,action) => {
             state.user = action.payload;
         },
+        setName:(state,action) => {
+            state.name = action.payload;
+        }
     },
     extraReducers: builder => {
         builder

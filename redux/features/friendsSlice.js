@@ -65,7 +65,7 @@ export const friendsSlice = createSlice({
             console.log("Search done")
         },
         [searchFriend.rejected]: (state, action) => {
-            console.log(action)
+            console.log("SEARCH",action)
         },
         [removeFriend.pending]: (state, action) => {
             console.log("working on change")

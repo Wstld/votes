@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Pressable, Text, TextInput, View,StyleSheet,FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sepparator } from '../components/sepparator'
@@ -6,6 +7,7 @@ import { friendsSlice, removeFriend, searchFriend, addFriend} from '../redux/fea
 import store from '../redux/store';
 
 const FriendsScreen = (navigator) => {
+  
   let dispatch = useDispatch();
   let friends = useSelector(state => state.login.userData.friends)
   let friendsArr = Object.values(friends).map(e => e);
@@ -23,8 +25,11 @@ const FriendsScreen = (navigator) => {
  }
 
  function searchForFriend(friend){
-   let searchWord = friend.toLowerCase()
-   dispatch(searchFriend(searchWord));
+   console.log(friend);
+   if(friend.length > 3){
+    dispatch(searchFriend(friend));
+   }
+
  }
 
  function addClickedFriend(friend){
@@ -139,7 +144,7 @@ const FriendsScreen = (navigator) => {
             scrollEnabled={true}
             nestedScrollEnabled={true}
               data={friendsArr}
-              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={styles.deletBtn} onPress={() => deleteFriend(item)}><Text style={styles.deletBtnTxt}>-</Text></Pressable></View>)}
+              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={styles.deletBtn} onPress={() => {deleteFriend(item)}}><Text style={styles.deletBtnTxt}>-</Text></Pressable></View>)}
               keyExtractor={item => item.id}
               ItemSeparatorComponent={(() => (<Sepparator height={8} />))}
               contentContainerStyle={styles.contentCotainerStyle}
@@ -150,7 +155,7 @@ const FriendsScreen = (navigator) => {
 
       </View>
       <View style={styles.mainContPlaceholder}>
-      <TextInput placeholder="Search" onChangeText={(text) => { if(text.length > 4){ searchForFriend(text) } }} style={styles.textInput_small}/>
+      <TextInput placeholder="Search" onChangeText={(text) => {  searchForFriend(text) } } style={styles.textInput_small}/>
       {
           //added friends..
           Array.isArray(filteredResults) && !filteredResults.length ? null :
@@ -158,7 +163,7 @@ const FriendsScreen = (navigator) => {
             scrollEnabled={true}
             nestedScrollEnabled={true}
               data={filteredResults}
-              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={[styles.deletBtn,{backgroundColor:'green'}]} onPress={() => {addClickedFriend(item)}}><Text style={[styles.deletBtnTxt]}>+</Text></Pressable></View>)}
+              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={[styles.deletBtn,{backgroundColor:'green'}]} onPress={() => {addClickedFriend(item)} }><Text style={[styles.deletBtnTxt]}>+</Text></Pressable></View>)}
               keyExtractor={item => item.id}
               ItemSeparatorComponent={(() => (<Sepparator height={8} />))}
               contentContainerStyle={styles.contentCotainerStyle}
