@@ -29,7 +29,12 @@ const AddQuestionScreen = (navigator) => {
 
 
   function deletFriendFromList(friend) {
-    dispatch(addQuestionSlice.actions.deleteFriend(friend));
+    let index = friends.findIndex((e) => (e.id === friend.id));
+    batch(() => {
+      dispatch(addQuestionSlice.actions.updateClicked(index));
+      dispatch(addQuestionSlice.actions.deleteFriend(friend));
+    })
+ 
   }
 
   function deletFromOptions(option) {
@@ -249,7 +254,6 @@ const AddQuestionScreen = (navigator) => {
                         <Pressable disabled={item.clicked} onPress={() => addToList(item)} style={item.clicked ? styles.friendBtnDeAct : styles.friendBtnActive}>
                           <Text>{item.name}</Text>
                         </Pressable>
-                        <Text>-</Text>
                       </View>
                     )}
                     keyExtractor={item => item.id}
