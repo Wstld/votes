@@ -1,56 +1,56 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Pressable, Text, TextInput, View,StyleSheet,FlatList, SafeAreaView } from 'react-native';
+import { Pressable, Text, TextInput, View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sepparator } from '../components/sepparator'
-import { friendsSlice, removeFriend, searchFriend, addFriend} from '../redux/features/friendsSlice';
+import { friendsSlice, removeFriend, searchFriend, addFriend } from '../redux/features/friendsSlice';
 import store from '../redux/store';
 
 const FriendsScreen = (navigator) => {
-  
+
   let dispatch = useDispatch();
   let friends = useSelector(state => state.login.userData.friends)
   let friendsArr = Object.values(friends).map(e => e);
-  
+
   let searchResult = useSelector(state => state.friends.searchResult);
   let filteredResults = !searchResult.length ? [] : searchResult.filter(e => !friendsArr.some(e2 => e.id === e2.id));
-  
-  
-  function deleteFriend(friend){
-   let newFriends = friendsArr.filter(e => e.id !== friend.id);
-   let friendsObject = Object.assign({},...newFriends.map((e) => (
-     {[e.id]:e}
-   )))
-   dispatch(removeFriend({uid:store.getState().login.user.uid, friends:friendsObject}))
- }
 
- function searchForFriend(friend){
-   console.log(friend);
-   if(friend.length > 3){
-    dispatch(searchFriend(friend));
-   }
 
- }
+  function deleteFriend(friend) {
+    let newFriends = friendsArr.filter(e => e.id !== friend.id);
+    let friendsObject = Object.assign({}, ...newFriends.map((e) => (
+      { [e.id]: e }
+    )))
+    dispatch(removeFriend({ uid: store.getState().login.user.uid, friends: friendsObject }))
+  }
 
- function addClickedFriend(friend){
-   let friendObj = {
-     id:friend.id,
-     email:friend.email,
-     name:friend.name,
-   };
-   dispatch(addFriend({friend:friendObj,uid:store.getState().login.user.uid}));
- }
+  function searchForFriend(friend) {
+    console.log(friend);
+    if (friend.length > 3) {
+      dispatch(searchFriend(friend));
+    }
+
+  }
+
+  function addClickedFriend(friend) {
+    let friendObj = {
+      id: friend.id,
+      email: friend.email,
+      name: friend.name,
+    };
+    dispatch(addFriend({ friend: friendObj, uid: store.getState().login.user.uid }));
+  }
 
   const styles = StyleSheet.create({
-    contentCotainerStyle:{
+    contentCotainerStyle: {
     },
     mainCont: {
-      paddingTop:10,
+      paddingTop: 10,
     },
     listContainer: {
       maxHeight: 200,
       marginTop: 10,
-      marginBottom:10,
+      marginBottom: 10,
 
     },
     mainContPlaceholder: {
@@ -62,13 +62,13 @@ const FriendsScreen = (navigator) => {
       alignSelf: 'center',
       width: '90%',
       borderRadius: 10,
-      marginBottom:10,
-      paddingTop:10,
+      marginBottom: 10,
+      paddingTop: 10,
     },
     textInput_small: {
       backgroundColor: 'orange',
       minHeight: 50,
-      width:'90%',
+      width: '90%',
       borderRadius: 10,
       paddingLeft: 20,
     },
@@ -134,36 +134,36 @@ const FriendsScreen = (navigator) => {
 
 
   return (
-     <SafeAreaView style={styles.mainCont}>
+    <SafeAreaView style={styles.mainCont}>
       <Text style={styles.h1}>My Friends</Text>
       <View style={styles.mainContPlaceholder}>
-      {
+        {
           //added friends..
           Array.isArray(friendsArr) && !friendsArr.length ? null :
             <FlatList
-            scrollEnabled={true}
-            nestedScrollEnabled={true}
+              scrollEnabled={true}
+              nestedScrollEnabled={true}
               data={friendsArr}
-              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={styles.deletBtn} onPress={() => {deleteFriend(item)}}><Text style={styles.deletBtnTxt}>-</Text></Pressable></View>)}
+              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={styles.deletBtn} onPress={() => { deleteFriend(item) }}><Text style={styles.deletBtnTxt}>-</Text></Pressable></View>)}
               keyExtractor={item => item.id}
               ItemSeparatorComponent={(() => (<Sepparator height={8} />))}
               contentContainerStyle={styles.contentCotainerStyle}
               style={styles.listContainer}
             />
         }
-    
+
 
       </View>
       <View style={styles.mainContPlaceholder}>
-      <TextInput placeholder="Search" onChangeText={(text) => {  searchForFriend(text) } } style={styles.textInput_small}/>
-      {
+        <TextInput placeholder="Search" onChangeText={(text) => { searchForFriend(text) }} style={styles.textInput_small} />
+        {
           //added friends..
           Array.isArray(filteredResults) && !filteredResults.length ? null :
             <FlatList
-            scrollEnabled={true}
-            nestedScrollEnabled={true}
+              scrollEnabled={true}
+              nestedScrollEnabled={true}
               data={filteredResults}
-              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={[styles.deletBtn,{backgroundColor:'green'}]} onPress={() => {addClickedFriend(item)} }><Text style={[styles.deletBtnTxt]}>+</Text></Pressable></View>)}
+              renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={[styles.deletBtn, { backgroundColor: 'green' }]} onPress={() => { addClickedFriend(item) }}><Text style={[styles.deletBtnTxt]}>+</Text></Pressable></View>)}
               keyExtractor={item => item.id}
               ItemSeparatorComponent={(() => (<Sepparator height={8} />))}
               contentContainerStyle={styles.contentCotainerStyle}
@@ -172,8 +172,8 @@ const FriendsScreen = (navigator) => {
         }
       </View>
 
-     </SafeAreaView>
-  
+    </SafeAreaView>
+
   );
 }
 
