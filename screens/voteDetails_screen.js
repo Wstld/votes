@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, View, StyleSheet, useWindowDimensions, Button, Modal, CheckBox, Pressable,FlatList} from 'react-native';
+import { Text, View, StyleSheet, useWindowDimensions, Button, Modal, CheckBox, Pressable,FlatList,SafeAreaView} from 'react-native';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import VoteResult from '../components/voteResult'
 import store from '../redux/store';
@@ -133,14 +133,14 @@ const VoteDetails = ({ navigaton, route }) => {
   //create modal on vote tap.
   console.log("voted", Object.values(data.voters).filter( e => e.voted).length      )
   return (
-    <View style={styles.mainCont}>
+    <SafeAreaView style={styles.mainCont}>
        <Modal
           animationType="slide"
           transparent={true}
           visible={modalOpen}
           style={styles.modal}
         >
-        <View  style={styles.modalCont}>
+        <SafeAreaView  style={styles.modalCont}>
         <Text style={styles.modalHeader}>{data.title}</Text>
         <FlatList
                     data={data.options}
@@ -152,7 +152,7 @@ const VoteDetails = ({ navigaton, route }) => {
         <Pressable style={styles.modalBtn} onPress={() => {dispatch(detailsSlice.actions.toggelModal())}}>
          <Text>Close</Text>
         </Pressable>
-        </View>
+        </SafeAreaView>
         
         </Modal>
 
@@ -164,7 +164,7 @@ const VoteDetails = ({ navigaton, route }) => {
       <VoteResult options= {data.options} results = {data.result} total = {Object.keys(data.voters).length} />
       <Text style={styles.sumTxt}>{`${Object.values(data.voters).filter( e => e.voted).length}/${Object.keys(data.voters).length}`}</Text>
       <Button title="Vote" disabled={hasUserVoted} onPress={() => {dispatch(detailsSlice.actions.toggelModal())}}/>
-    </View>
+    </SafeAreaView>
 
   );
 }

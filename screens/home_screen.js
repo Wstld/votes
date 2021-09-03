@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Text, View, TextInput, Button, Modal, StyleSheet, useWindowDimensions, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
+import { Text, View, TextInput, Button, Modal, StyleSheet, useWindowDimensions, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginSlice } from '../redux/features/loginSlice';
 import store from '../redux/store';
@@ -78,7 +78,7 @@ const HomeScreen = (navigator) => {
 
 
   return (
-    <View style={styles.mainContainer}>
+    <SafeAreaView style={styles.mainContainer}>
       {
             data != null ?
             <VoteHolder voteFlags={data.voteFlags} />
@@ -86,7 +86,7 @@ const HomeScreen = (navigator) => {
             <Text>loading</Text>
       }
 
-    </View>
+    </SafeAreaView>
   );
 };
 

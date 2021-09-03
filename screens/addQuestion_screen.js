@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Modal, Pressable, Text, TextInput, View, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { Modal, Pressable, Text, TextInput, View, StyleSheet, FlatList, ScrollView, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { addQuestionSlice, setQuestion } from '../redux/features/addQuestionSlice';
 import { Sepparator } from '../components/sepparator';
@@ -123,6 +123,7 @@ const AddQuestionScreen = (navigator) => {
       marginLeft: 20,
       marginRight:20,
       borderRadius: 10,
+      paddingLeft: 20,
     },
     modalCont: {
       backgroundColor: 'white',
@@ -220,23 +221,23 @@ const AddQuestionScreen = (navigator) => {
   })
 
   return (
-    <View style={styles.mainCont} nestedScrollEnabled={true} scrollEnabled={true}>
+    <SafeAreaView style={styles.mainCont} nestedScrollEnabled={true} scrollEnabled={true}>
       <Text style={styles.h1}>Title</Text>
       <TextInput placeholder="Title" style={styles.textInput_small} onChangeText={(text) => dispatch(addQuestionSlice.actions.setTitle(text))} />
       <Text style={styles.h1}>Options</Text>
       <TextInput placeholder={dummyText} multiline={true} style={styles.textInput_big} onChangeText={(text) => dispatch(addQuestionSlice.actions.setDesc(text))} />
 
       <Text style={styles.h1}>Friends</Text>
-      <View style={styles.mainContPlaceholder}>
+      <SafeAreaView style={styles.mainContPlaceholder}>
 
         <Modal
           animationType="slide"
           transparent={true}
           visible={friendsModalOpen}
         >
-          <View style={styles.modalCont}>
+          <SafeAreaView style={styles.modalCont}>
             <Text style={styles.h1}>My Friends</Text>
-            <View style={styles.modalPlaceholder}>
+            <SafeAreaView style={styles.modalPlaceholder}>
               {
                 Array.isArray(friends) && !friends.length ? null :
                   <FlatList
@@ -256,9 +257,9 @@ const AddQuestionScreen = (navigator) => {
                     style={styles.listContainer}
                     contentContainerStyle={styles.contentContainerStyle}
                   />}
-            </View>
+            </SafeAreaView>
             <Pressable style={styles.addBtn} onPress={() => { dispatch(addQuestionSlice.actions.toggelFriendsModal()) }}><Text>Close</Text></Pressable>
-          </View>
+          </SafeAreaView>
         </Modal>
 
         {
@@ -279,23 +280,23 @@ const AddQuestionScreen = (navigator) => {
         <Pressable style={styles.addBtn} onPress={() => dispatch(addQuestionSlice.actions.toggelFriendsModal())}>
           <Text>+</Text>
         </Pressable>
-      </View>
+      </SafeAreaView>
 
       <Text style={styles.h1}>Options</Text>
-      <View style={styles.mainContPlaceholder}>
+      <SafeAreaView style={styles.mainContPlaceholder}>
 
         <Modal
           animationType="slide"
           transparent={true}
           visible={optModalOpen}
         >
-          <View style={styles.modalCont}>
+          <SafeAreaView style={styles.modalCont}>
             <TextInput onChangeText={(text) => dispatch(addQuestionSlice.actions.typedOption(text))} placeholder="Option" style={[styles.textInput_small, { backgroundColor: 'rgb(245, 245, 245)' }]} />
             <Pressable style={styles.addBtn} onPress={() => addOption()}>
               <Text>Add</Text>
             </Pressable>
             <Pressable style={styles.addBtn} onPress={() => { dispatch(addQuestionSlice.actions.toggelOptionsModal()) }}><Text>Close</Text></Pressable>
-          </View>
+          </SafeAreaView>
         </Modal>
         {
           //added options..
@@ -315,12 +316,12 @@ const AddQuestionScreen = (navigator) => {
         <Pressable style={styles.addBtn} onPress={() => dispatch(addQuestionSlice.actions.toggelOptionsModal())}>
           <Text>+</Text>
         </Pressable>
-      </View>
+      </SafeAreaView>
 
       <Pressable style={styles.addBtn} onPress={() => addQuestion()}>
         <Text>Add</Text>
       </Pressable>
-    </View>
+    </SafeAreaView>
 
   );
 }

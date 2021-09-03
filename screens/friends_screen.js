@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Pressable, Text, TextInput, View,StyleSheet,FlatList } from 'react-native';
+import { Pressable, Text, TextInput, View,StyleSheet,FlatList, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sepparator } from '../components/sepparator'
 import { friendsSlice, removeFriend, searchFriend, addFriend} from '../redux/features/friendsSlice';
@@ -134,7 +134,7 @@ const FriendsScreen = (navigator) => {
 
 
   return (
-     <View style={styles.mainCont}>
+     <SafeAreaView style={styles.mainCont}>
       <Text style={styles.h1}>My Friends</Text>
       <View style={styles.mainContPlaceholder}>
       {
@@ -172,7 +172,7 @@ const FriendsScreen = (navigator) => {
         }
       </View>
 
-     </View>
+     </SafeAreaView>
   
   );
 }
