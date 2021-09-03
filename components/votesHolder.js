@@ -14,15 +14,12 @@ export const VoteHolder = ({voteFlags}) => {
     const navigation = useNavigation();
     let voteData = useSelector(state => state.details.voteData);
 // should set a listner to this data.
-    useEffect(()=> {
-        if(!voteFlags.length){
-            return;
-        }else{
+    
+useEffect(()=> {
            dispatch(getVoteData(voteFlags));
-        }
-        
-    });
-   
+    },[voteFlags]);
+
+ 
 
     const { height, width } = useWindowDimensions();
 
@@ -114,7 +111,7 @@ export const VoteHolder = ({voteFlags}) => {
             marginTop:15,
         }
     })
-    
+     console.log("VOTEHOLDER")
     const VoteCard = ({ item,index }) => {
         return (
             <Pressable onPress={() => navigation.navigate('Home', { screen: 'Details', params:{voteId:item.id}})} style={styles.voteCardCont}>

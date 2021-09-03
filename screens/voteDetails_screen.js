@@ -10,16 +10,19 @@ import { useEffect } from 'react';
 
 const VoteDetails = ({ navigaton, route }) => {
   let dispatch = useDispatch()
-  const { height, width } = useWindowDimensions();
+ 
   const id = route.params.voteId;
   let userId = store.getState().login.user.uid;
 
 
-  let data = useSelector(state => state.details.voteData.filter(e=> e.id === id)[0]);
+  let getData = useSelector(state => state.details.voteData);
+  let data = getData.filter(e=> e.id === id)[0]
   let hasUserVoted = data.voters[userId] ? data.voters[userId].voted : false;
 
   const modalOpen = useSelector(state => state.details.modalOpen);
+useEffect(() => {
 
+},[]);
   const styles = StyleSheet.create({
     mainCont: {
       justifyContent: 'center',
@@ -29,7 +32,7 @@ const VoteDetails = ({ navigaton, route }) => {
     },
     descpCont: {
       backgroundColor: 'rgba(243, 242, 209, 1)',
-      width: width - 30,
+      width: '70%',
       padding: 10,
       shadowOffset: {
         width: 0,
@@ -79,7 +82,7 @@ const VoteDetails = ({ navigaton, route }) => {
       shadowRadius: 3.84,
       elevation: 5,
       backgroundColor:'white',
-      width:width,
+      width:'100%',
       minHeight:'60%',
       borderBottomLeftRadius:20,
       borderBottomRightRadius:20,

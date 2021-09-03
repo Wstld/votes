@@ -5,7 +5,7 @@ import { Text, View, StyleSheet, useWindowDimensions  } from 'react-native';
 
 
 const VoteResult = ({total,options,results})  => {
-   const {width,height} = useWindowDimensions(); 
+ 
 
     const ResultStaple = ({percent,votes}) => {
         console.log("per",percent)
@@ -31,7 +31,7 @@ const VoteResult = ({total,options,results})  => {
         mainCont:{
             flexDirection:'row',
             backgroundColor:'rgba(243, 242, 209, 1)',
-            width:width - 30,
+            width:'70%',
             padding:10,
             shadowOffset: {
                 width: 0,
@@ -75,7 +75,7 @@ const VoteResult = ({total,options,results})  => {
         {options.map( opt => (<Text style={styles.optText} numberOfLines = {1} ellipsizeMode="tail" adjustsFontSizeToFit={true} minimumFontScale={0.7}>{opt}</Text>))}
       </View>
       <View style={styles.resultCont}>
-        { Object.entries(results).map(([key,value]) => (<ResultStaple votes={value} percent={ (value / total * 100).toFixed(1) } />)) }
+        { Object.entries(results).map(([key,value]) => (<ResultStaple key={key} votes={value} percent={ (value / total * 100).toFixed(1) } />)) }
       </View>
      </View>
   
