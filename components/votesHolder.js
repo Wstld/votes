@@ -8,18 +8,19 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVoteData } from '../redux/features/detailsSlice';
 
+//container for votes user can/have praticipated in. 
 
-export const VoteHolder = ({voteFlags}) => {
+export const VoteHolder = ({ voteFlags }) => {
     let dispatch = useDispatch()
     const navigation = useNavigation();
     let voteData = useSelector(state => state.details.voteData);
-// should set a listner to this data.
-    
-useEffect(()=> {
-           dispatch(getVoteData(voteFlags));
-    },[voteFlags]);
 
- 
+
+    useEffect(() => {
+        dispatch(getVoteData(voteFlags));
+    }, [voteFlags]);
+
+
 
     const { height, width } = useWindowDimensions();
 
@@ -38,17 +39,17 @@ useEffect(()=> {
             shadowRadius: 3.84,
 
             elevation: 5,
-            borderRadius:10,
-            marginBottom:20,
+            borderRadius: 10,
+            marginBottom: 20,
 
         },
         voteCardCont: {
             height: 50,
-            width:'80%',
+            width: '80%',
             backgroundColor: 'rgb(149, 166, 103)',
             borderRadius: 10,
             alignContent: 'stretch',
-            justifyContent:'center',
+            justifyContent: 'center',
             alignItems: 'center',
             shadowColor: "#000",
             shadowOffset: {
@@ -59,31 +60,31 @@ useEffect(()=> {
             shadowRadius: 3.84,
 
             elevation: 5,
-            alignSelf:'center'
-            
+            alignSelf: 'center'
+
 
         },
         listCont: {
             width: '90%',
-            backgroundColor:'rgba(243, 242, 209, 1)',
-            margin:10,
-            
+            backgroundColor: 'rgba(243, 242, 209, 1)',
+            margin: 10,
+
 
         },
-        contentCotainerStyle:{
-            paddingTop:10,
-            paddingBottom:10,
+        contentCotainerStyle: {
+            paddingTop: 10,
+            paddingBottom: 10,
         },
-        header:{
-            backgroundColor:'rgb(149, 166, 103)',
-            width:'100%',
-            height:40,
+        header: {
+            backgroundColor: 'rgb(149, 166, 103)',
+            width: '100%',
+            height: 40,
 
-            margin:0,
-            padding:0,
-            alignSelf:'stretch',
-            borderTopLeftRadius:10,
-            borderTopRightRadius:10,
+            margin: 0,
+            padding: 0,
+            alignSelf: 'stretch',
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
             shadowColor: "#000",
             shadowOffset: {
                 width: 0,
@@ -92,29 +93,29 @@ useEffect(()=> {
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
             elevation: 5,
-            borderBottomColor:'rgb(240, 238, 240)',
-            borderBottomWidth:2,
-            textAlign:'center',
-            textAlignVertical:'center',
-            fontSize:20,
-            color:'rgb(240, 238, 240)',
-            textShadowColor:'black',
-            textShadowRadius:5,
+            borderBottomColor: 'rgb(240, 238, 240)',
+            borderBottomWidth: 2,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            fontSize: 20,
+            color: 'rgb(240, 238, 240)',
+            textShadowColor: 'black',
+            textShadowRadius: 5,
         },
-        voteCardText:{
-            color:'rgba(45, 43, 12, 1)',
-            fontSize:15
+        voteCardText: {
+            color: 'rgba(45, 43, 12, 1)',
+            fontSize: 15
         },
-        noVotesText:{
-            color:'rgba(45, 43, 12, 1)',
-            fontSize:15,
-            marginTop:15,
+        noVotesText: {
+            color: 'rgba(45, 43, 12, 1)',
+            fontSize: 15,
+            marginTop: 15,
         }
     })
-     console.log("VOTEHOLDER")
-    const VoteCard = ({ item,index }) => {
+    
+    const VoteCard = ({ item, index }) => {
         return (
-            <Pressable onPress={() => navigation.navigate('Home', { screen: 'Details', params:{voteId:item.id}})} style={styles.voteCardCont}>
+            <Pressable onPress={() => navigation.navigate('Home', { screen: 'Details', params: { voteId: item.id } })} style={styles.voteCardCont}>
                 <View>
                     <Text style={styles.voteCardText}>{item.title}</Text>
                 </View>
@@ -126,29 +127,29 @@ useEffect(()=> {
     return (
         <SafeAreaView>
             <View style={styles.container}>
-            <Text style={styles.header}>Votes</Text>
-            
-            {!voteData.length ?
-                <Text style={styles.noVotesText}>No Votes</Text>
-                :
-                <FlatList
-                    data={voteData}
-                    renderItem={VoteCard}
-                    keyExtractor={item => item.id}
-                    ItemSeparatorComponent={(() => (<Sepparator height = {8}/>))}
-                    contentContainerStyle={styles.contentCotainerStyle}
-                    style={styles.listCont}
-                />
-            }
+                <Text style={styles.header}>Votes</Text>
+
+                {!voteData.length ?
+                    <Text style={styles.noVotesText}>No Votes</Text>
+                    :
+                    <FlatList
+                        data={voteData}
+                        renderItem={VoteCard}
+                        keyExtractor={item => item.id}
+                        ItemSeparatorComponent={(() => (<Sepparator height={8} />))}
+                        contentContainerStyle={styles.contentCotainerStyle}
+                        style={styles.listCont}
+                    />
+                }
             </View>
             <Button
                 title="Ask for Vote"
                 color="rgb(149, 166, 103)"
-                onPress={() => { navigation.navigate('AddQuestion')}}
+                onPress={() => { navigation.navigate('AddQuestion') }}
             />
 
         </SafeAreaView>
-        
+
     )
 
 

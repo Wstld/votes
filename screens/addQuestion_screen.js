@@ -7,18 +7,18 @@ import { Sepparator } from '../components/sepparator';
 import store from '../redux/store';
 import { useEffect } from 'react';
 
-const AddQuestionScreen = (navigator) => {
+const AddQuestionScreen = ({navigation}) => {
   const dispatch = useDispatch();
   let friendsFromDB = useSelector(state => state.login.userData.friends)
   const friendsForState = Object.entries(friendsFromDB).map(([key, value]) => ({ clicked: false, ...value }));
 
   useEffect(() => {
     dispatch(addQuestionSlice.actions.setUserFriends(friendsForState));
-  },[friendsFromDB]);
+  }, [friendsFromDB]);
 
   const friends = useSelector(state => state.addQuestion.userFriends);
 
-  
+
   let optModalOpen = useSelector(state => state.addQuestion.optionsModalOpen);
   let friendsModalOpen = useSelector(state => state.addQuestion.friendsModalOpen);
   let addedFriends = useSelector(state => state.addQuestion.addedFriends);
@@ -34,7 +34,7 @@ const AddQuestionScreen = (navigator) => {
       dispatch(addQuestionSlice.actions.updateClicked(index));
       dispatch(addQuestionSlice.actions.deleteFriend(friend));
     })
- 
+
   }
 
   function deletFromOptions(option) {
@@ -73,7 +73,7 @@ const AddQuestionScreen = (navigator) => {
     )));
     const result = Object.assign({}, ...options.map(item => ({ [item]: 0 })));
     //add self to voters
-    voters[store.getState().login.user.uid] = {voted:false};
+    voters[store.getState().login.user.uid] = { voted: false };
 
     let vote = {
       id: id,
@@ -90,14 +90,15 @@ const AddQuestionScreen = (navigator) => {
   function addQuestion() {
     const vote = createVote();
     dispatch(setQuestion(vote));
+    navigation.navigate('Home',{screen:'Landing'});
   }
 
 
   const styles = StyleSheet.create({
-    contentCotainerStyle:{
+    contentCotainerStyle: {
     },
     mainCont: {
-      paddingTop:10,
+      paddingTop: 10,
     },
     listContainer: {
       maxHeight: 100,
@@ -126,7 +127,7 @@ const AddQuestionScreen = (navigator) => {
       backgroundColor: 'white',
       minHeight: 50,
       marginLeft: 20,
-      marginRight:20,
+      marginRight: 20,
       borderRadius: 10,
       paddingLeft: 20,
     },
@@ -134,7 +135,7 @@ const AddQuestionScreen = (navigator) => {
       backgroundColor: 'white',
       minHeight: 200,
       justifyContent: 'space-evenly',
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: {
         width: 0,
         height: 2,
@@ -171,7 +172,7 @@ const AddQuestionScreen = (navigator) => {
       backgroundColor: 'green',
       alignSelf: 'center',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     friendBtnDeAct: {
       width: 250,
@@ -244,6 +245,7 @@ const AddQuestionScreen = (navigator) => {
             <Text style={styles.h1}>My Friends</Text>
             <SafeAreaView style={styles.modalPlaceholder}>
               {
+                //friends to add..
                 Array.isArray(friends) && !friends.length ? null :
                   <FlatList
                     scrollEnabled={true}
@@ -270,8 +272,8 @@ const AddQuestionScreen = (navigator) => {
           //added friends..
           Array.isArray(addedFriends) && !addedFriends.length ? null :
             <FlatList
-            scrollEnabled={true}
-            nestedScrollEnabled={true}
+              scrollEnabled={true}
+              nestedScrollEnabled={true}
               data={addedFriends}
               renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item.name}</Text><Pressable style={styles.deletBtn} onPress={() => deletFriendFromList(item)}><Text style={styles.deletBtnTxt}>-</Text></Pressable></View>)}
               keyExtractor={item => item.id}
@@ -306,8 +308,8 @@ const AddQuestionScreen = (navigator) => {
           //added options..
           Array.isArray(addedOptions) && !addedOptions.length ? null :
             <FlatList
-            scrollEnabled={true}
-            nestedScrollEnabled={true}
+              scrollEnabled={true}
+              nestedScrollEnabled={true}
               data={addedOptions}
               renderItem={({ item }) => (<View style={styles.addedFriend}><Text>{item}</Text><Pressable style={styles.deletBtn} onPress={() => deletFromOptions(item)}><Text style={styles.deletBtnTxt}>-</Text></Pressable></View>)}
               keyExtractor={item => item.id}

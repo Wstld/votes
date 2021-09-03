@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Platform } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -76,7 +76,8 @@ const NavigationBridge = () => {
                     if (route.name === 'AddQuestion') {
                         iconName = 'help'
                     }
-                    return <Ionicons name={iconName} size={24} />
+                    {/* ionicons wont work on ios temp fix*/ }
+                    return Platform.OS === 'android' ? <Ionicons name={iconName} size={24} /> : <></>;
                 },
             })}>
                 {activeUser ? (

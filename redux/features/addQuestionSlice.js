@@ -111,8 +111,8 @@ export const addQuestionSlice = createSlice({
         [setQuestion.fulfilled]:(state,action) =>{
             state.status = STATUS.idle;
             state.addedFriends = [];
-            state.title = '';
-            state.description = '';
+            state.title = null;
+            state.description = null;
             state.options = [];
         },
     },

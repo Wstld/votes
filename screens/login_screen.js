@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TextInput, Button, Modal, StyleSheet, useWindowDimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginSlice, loginWithEmail, createUserWithEmail} from '../redux/features/loginSlice';
+import { loginSlice, loginWithEmail, createUserWithEmail } from '../redux/features/loginSlice';
 import store from '../redux/store';
 import { Sepparator } from '../components/sepparator';
 
@@ -9,20 +9,15 @@ import { STATUS } from '../util/constants'
 
 
 const LoginScreen = (navigator) => {
-  console.log("loaded");
+
   let dispatch = useDispatch();
   let modalOpen = useSelector(state => state.login.modalOpen);
-  let { height, width } = useWindowDimensions();
+  let { width } = useWindowDimensions();
   let status = useSelector(state => state.login.status);
 
-  
+
   const createUser = () => {
-    let password = store.getState().login.password;
-    let username = store.getState().login.username;
-   
-    //Check username and password => firebase auth create user.
-    //auth().createUserWithEmailAndPassword(username,password).then(() => { //sign in }).catch(error => { if .... })
-    dispatch(createUserWithEmail({username:store.getState().login.username,password:store.getState().login.password}));
+    dispatch(createUserWithEmail({ username: store.getState().login.username, password: store.getState().login.password }));
   };
 
 
@@ -36,7 +31,7 @@ const LoginScreen = (navigator) => {
       justifyContent: 'space-around',
       paddingTop: 20,
       paddingBottom: 20,
-      marginTop:90,
+      marginTop: 90,
     },
     headline: {
       textAlign: 'center',
@@ -65,18 +60,18 @@ const LoginScreen = (navigator) => {
     },
     noAccount: {
       height: 40,
-      padding:10,
-      alignItems:'center',
+      padding: 10,
+      alignItems: 'center',
     },
-    container:{
-      flexDirection:'column',
-      justifyContent:'center',
-      margin:25,
+    container: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      margin: 25,
     },
   });
 
-  
-  
+
+
 
   if (status === STATUS.idle) {
     return (
@@ -86,14 +81,14 @@ const LoginScreen = (navigator) => {
           transparent={true}
           visible={modalOpen}
         >
-          <View style = {styles.modal}>
+          <View style={styles.modal}>
             <TextInput
               style={styles.input}
               placeholder="email"
               onChangeText={username => { dispatch(loginSlice.actions.setUsername(username)); }}
               defaultValue={store.getState().login.username}
             />
-             <TextInput
+            <TextInput
               style={styles.input}
               placeholder="name"
               onChangeText={text => { dispatch(loginSlice.actions.setName(text)); }}
@@ -106,7 +101,7 @@ const LoginScreen = (navigator) => {
             />
             <View style={styles.btn}>
               <Button title="create" onPress={() => createUser()} />
-              <Sepparator height = {6}/>
+              <Sepparator height={6} />
               <Button
                 title="close"
                 onPress={() => dispatch(loginSlice.actions.toggelModal())}
@@ -117,13 +112,13 @@ const LoginScreen = (navigator) => {
 
         <Text>Login</Text>
         <TextInput
-          style= {styles.input}
+          style={styles.input}
           placeholder="Username"
           onChangeText={username => { dispatch(loginSlice.actions.setUsername(username)); }}
           defaultValue={store.getState().login.username}
         />
         <TextInput
-          style= {styles.input}
+          style={styles.input}
           placeholder="Password"
           onChangeText={pass => { dispatch(loginSlice.actions.setPassword(pass)); }}
         />
@@ -139,8 +134,8 @@ const LoginScreen = (navigator) => {
 
   } if (status === STATUS.loading) {
     return (
-      <View style = {styles.container}>
-        <ActivityIndicator size= "large" />
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
       </View>
     )
   }

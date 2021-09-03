@@ -14,12 +14,11 @@ import { VoteHolder } from '../components/votesHolder';
 
 
 const HomeScreen = (navigator) => {
- 
+
   let dispatch = useDispatch();
 
 
   function onResult(Snap) {
-    console.log("update")
     let addedData = Snap.data();
     dispatch(loginSlice.actions.setUserData(addedData));
   }
@@ -27,7 +26,7 @@ const HomeScreen = (navigator) => {
   function onErr(err) {
     console.log("from", err);
   }
-
+  //add userData document if non exitent.
   useEffect(() => {
     if (user) {
       firestore()
@@ -36,7 +35,7 @@ const HomeScreen = (navigator) => {
         .get()
         .then(doc => {
           if (doc.exists) {
-            
+
           }
           else {
             firestore()
@@ -44,18 +43,19 @@ const HomeScreen = (navigator) => {
               .doc(user.uid)
               .set({
                 name: store.getState().login.name,
-                id:user.uid,
-                friends:[],
+                id: user.uid,
+                friends: [],
                 voteFlags: [],
                 email: user.email,
               });
           }
         });
-
+        //subscribe to changes in users.
       const subscribe = firestore()
         .collection('users')
         .doc(user.uid)
         .onSnapshot(onResult, onErr);
+        //callback to remove listner.
       return subscribe;
 
     } else {
@@ -76,14 +76,14 @@ const HomeScreen = (navigator) => {
     }
   })
 
-
+  
   return (
     <SafeAreaView style={styles.mainContainer}>
       {
-            data != null ?
-            <VoteHolder voteFlags={data.voteFlags} />
-            :
-            <Text>loading</Text>
+        data != null ?
+          <VoteHolder voteFlags={data.voteFlags} />
+          :
+          <Text>loading</Text>
       }
 
     </SafeAreaView>
