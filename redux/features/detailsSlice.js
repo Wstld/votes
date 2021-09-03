@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import firestore from '@react-native-firebase/firestore';
-import auth, { firebase } from '@react-native-firebase/auth'
 import { STATUS } from '../../util/constants'
 
 
@@ -44,6 +43,9 @@ export const detailsSlice = createSlice({
     reducers: {
         toggelModal: (state, action) => {
             state.modalOpen = !state.modalOpen;
+        },
+        setVoteData: (state,action) => {
+            state.voteData = action.payload;
         }
     },
     extraReducers: {

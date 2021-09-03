@@ -6,7 +6,8 @@ import { Sepparator } from './sepparator';
 import store from '../redux/store'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVoteData } from '../redux/features/detailsSlice';
+import {detailsSlice,  getVoteData } from '../redux/features/detailsSlice'
+import firestore from '@react-native-firebase/firestore';
 
 //container for votes user can/have praticipated in. 
 
@@ -14,11 +15,34 @@ export const VoteHolder = ({ voteFlags }) => {
     let dispatch = useDispatch()
     const navigation = useNavigation();
     let voteData = useSelector(state => state.details.voteData);
+    
+    function onResult(snap){
+        console.log(snap)
+        let data = []
+        snap.forEach(e => data.push(e.data()));
+        dispatch(detailsSlice.actions.setVoteData(data));
+    }
+    function onErr(err){
+        console.log(err)
+    };
+
 
 
     useEffect(() => {
-        dispatch(getVoteData(voteFlags));
-    }, [voteFlags]);
+        console.log("start holder")
+        console.log(voteFlags)
+        if(!voteFlags.length){
+            
+        }else{
+            const subscribe = firestore()
+            .collection('votes')
+            .where(firestore.FieldPath.documentId(), 'in', voteFlags.slice(0,9))
+            .onSnapshot(onResult, onErr);
+            return subscribe
+        }
+        
+    },[voteFlags]);
+
 
 
 

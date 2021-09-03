@@ -7,6 +7,8 @@ import { Sepparator } from '../components/sepparator';
 import { detailsSlice, userChoice } from '../redux/features/detailsSlice';
 import { loginSlice } from '../redux/features/loginSlice';
 import { useEffect } from 'react';
+import { getVoteData } from '../redux/features/detailsSlice';
+
 
 const VoteDetails = ({ navigaton, route }) => {
   let dispatch = useDispatch()
@@ -15,8 +17,7 @@ const VoteDetails = ({ navigaton, route }) => {
   let userId = store.getState().login.user.uid;
 
 
-  let getData = useSelector(state => state.details.voteData);
-  let data = getData.filter(e => e.id === id)[0];
+  let data = useSelector(state => state.details.voteData.filter(e => e.id === id)[0]);
   let hasUserVoted = data.voters[userId] ? data.voters[userId].voted : false;
 
   const modalOpen = useSelector(state => state.details.modalOpen);
@@ -121,14 +122,13 @@ const VoteDetails = ({ navigaton, route }) => {
   function makeChoice(pick) {
     batch(() => {
       dispatch(userChoice({ choice: pick, voteId: id, uid: userId }));
-      dispatch(detailsSlice.actions.toggelModal());
+      dispatch(detailsSlice.actions.toggelModal())
     })
 
   }
 
 
   const OptBtn = ({ item, index }) => {
-    console.log("item", item)
     return (
       <Pressable style={styles.modalBtn} onPress={() => { makeChoice(item) }}>
         <Text>{item}</Text>
@@ -136,7 +136,7 @@ const VoteDetails = ({ navigaton, route }) => {
     )
   }
 
-  console.log("voted", Object.values(data.voters).filter(e => e.voted).length)
+
   return (
     <SafeAreaView style={styles.mainCont}>
       <Modal

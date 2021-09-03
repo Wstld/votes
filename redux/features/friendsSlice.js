@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, freeze } from "@reduxjs/toolkit";
 import firestore from '@react-native-firebase/firestore';
-import auth, { firebase } from '@react-native-firebase/auth'
-import { STATUS } from '../../util/constants'
-import store from "../store";
+
 
 export const addFriend = createAsyncThunk(
     'addFriend',
