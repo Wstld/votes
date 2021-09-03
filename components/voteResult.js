@@ -70,7 +70,7 @@ const VoteResult = ({total,options,results})  => {
     })
   
   return (
-     <View style={styles.mainCont}>
+     <View style={styles.mainCont} testID="resultComponent">
       <View style={styles.optCont}>
         {options.map( opt => (<Text style={styles.optText} numberOfLines = {1} ellipsizeMode="tail" adjustsFontSizeToFit={true} minimumFontScale={0.7}>{opt}</Text>))}
       </View>

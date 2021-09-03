@@ -224,7 +224,7 @@ const AddQuestionScreen = (navigator) => {
       <Text style={styles.h1}>Title</Text>
       <TextInput placeholder="Title" style={styles.textInput_small} onChangeText={(text) => dispatch(addQuestionSlice.actions.setTitle(text))} />
       <Text style={styles.h1}>Options</Text>
-      <TextInput defaultValue={dummyText} multiline={true} style={styles.textInput_big} onChangeText={(text) => dispatch(addQuestionSlice.actions.setDesc(text))} />
+      <TextInput placeholder={dummyText} multiline={true} style={styles.textInput_big} onChangeText={(text) => dispatch(addQuestionSlice.actions.setDesc(text))} />
 
       <Text style={styles.h1}>Friends</Text>
       <View style={styles.mainContPlaceholder}>
